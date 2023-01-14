@@ -1,14 +1,7 @@
 Minecraft 1.8 - 1.19.2 AFK Fishing bot
 =============
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/22e2d15847fb4deaaed97efc3b755ebd)](https://www.codacy.com/gh/MrKinau/FishingBot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrKinau/FishingBot&amp;utm_campaign=Badge_Grade)
-[![GitHub issues](https://img.shields.io/github/issues/MrKinau/FishingBot)](https://github.com/MrKinau/FishingBot/issues)
-[![GitHub](https://img.shields.io/github/license/MrKinau/FishingBot)](https://github.com/MrKinau/FishingBot/blob/master/LICENSE)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/MrKinau/FishingBot)](https://github.com/MrKinau/FishingBot/releases/latest)
-[![Discord](https://img.shields.io/discord/550764567282712583?logo=discord)](https://discord.gg/xHpCDYf)
-
-![img](https://screens.kinau.systems/928b8dda-e300-4dc4-b04b-d1798ca833d6.png)
+https://github.com/ImWuMie/Fishing-bot based on MrKinau's Fishing bot
 ## Download
-A list with all past releases can be found [here](https://github.com/MrKinau/FishingBot/releases).
 There's also a Docker image [available](docker).
 
 ## How to use
@@ -31,7 +24,7 @@ A list of all commands can be found in the wiki ([here](https://github.com/MrKin
 - Automatically execute commands after connecting
 - GUI
 - Use Command-Line-Arguments (all options [here](https://github.com/MrKinau/FishingBot/wiki/command-line-options))
-- Want more? Feel free to request a feature [here](https://github.com/MrKinau/FishingBot/issues) or on [Discord](https://discord.gg/xHpCDYf)
+- Want more? Feel free to request a feature [here](https://github.com/ImWuMie/Fishing-bot/issues) or on [Discord](https://discord.gg/xHpCDYf)
 
 ## Supported Versions
 - 1.8
@@ -75,7 +68,7 @@ A list of all commands can be found in the wiki ([here](https://github.com/MrKin
 To follow the project, get support or request features or bugs you can join my Discord: https://discord.gg/xHpCDYf
 
 ## Contribution
-You are free to create a fork, or a pull request to participate. You also can report bugs or request a new feature in the [issues](https://github.com/MrKinau/FishingBot/issues) tab or on my [Discord](https://discord.gg/xHpCDYf) (I will answer them as soon as possible)
+You are free to create a fork, or a pull request to participate. You also can report bugs or request a new feature in the [issues](https://github.com/ImWuMie/Fishing-bot/issues) tab or on my [Discord](https://discord.gg/xHpCDYf) (I will answer them as soon as possible)
 
 If you want to help translating this project into your mother language, we appreciate any help. Just signup at Crowdin and start translating the [project](https://crowdin.com/project/fishingbot).
 

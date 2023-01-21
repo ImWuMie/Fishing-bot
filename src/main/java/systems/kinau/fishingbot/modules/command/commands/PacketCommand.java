@@ -3,6 +3,7 @@ package systems.kinau.fishingbot.modules.command.commands;
 import systems.kinau.fishingbot.modules.command.Command;
 import systems.kinau.fishingbot.modules.command.CommandExecutor;
 import systems.kinau.fishingbot.websocket.SocketLaunch;
+import systems.kinau.fishingbot.websocket.packets.CommandPacket;
 import systems.kinau.fishingbot.websocket.packets.SayPacket;
 
 public class PacketCommand extends Command {
@@ -22,6 +23,28 @@ public class PacketCommand extends Command {
                     message.append(s).append(" ");
                 }
                 if (SocketLaunch.mainClient != null) SocketLaunch.mainClient.sendDebug(new SayPacket(message.toString()).toString());
+            }
+
+            case "cmd" : {
+                int i = 0;
+                StringBuilder message = new StringBuilder();
+                for (String s : args) {
+                    i++;
+                    if (i == 1) continue;
+                    message.append(s).append(" ");
+                }
+                if (SocketLaunch.mainClient != null) SocketLaunch.mainClient.sendDebug(new CommandPacket(message.toString(),false).toString());
+            }
+
+            case "botcmd" : {
+                int i = 0;
+                StringBuilder message = new StringBuilder();
+                for (String s : args) {
+                    i++;
+                    if (i == 1) continue;
+                    message.append(s).append(" ");
+                }
+                if (SocketLaunch.mainClient != null) SocketLaunch.mainClient.sendDebug(new CommandPacket(message.toString(),true).toString());
             }
         }
     }

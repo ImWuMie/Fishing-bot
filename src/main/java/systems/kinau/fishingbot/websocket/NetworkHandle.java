@@ -1,5 +1,6 @@
 package systems.kinau.fishingbot.websocket;
 
+import systems.kinau.fishingbot.websocket.packets.CommandPacket;
 import systems.kinau.fishingbot.websocket.packets.SayPacket;
 
 public class NetworkHandle {
@@ -21,6 +22,9 @@ public class NetworkHandle {
         switch (p.name) {
             case "say" : {
                 return new SayPacket(p.action);
+            }
+            case "command" : {
+                return new CommandPacket(p.action,Boolean.parseBoolean(p.action.split("/-/")[1]));
             }
         }
         for (Packet packet : SocketLaunch.packets) {

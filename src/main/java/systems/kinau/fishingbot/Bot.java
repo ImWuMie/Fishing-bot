@@ -34,6 +34,7 @@ import systems.kinau.fishingbot.network.ping.ServerPinger;
 import systems.kinau.fishingbot.network.protocol.NetworkHandler;
 import systems.kinau.fishingbot.network.protocol.ProtocolConstants;
 import systems.kinau.fishingbot.settings.AuthMode;
+import systems.kinau.fishingbot.websocket.SocketLaunch;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +73,22 @@ public class Bot {
     @Getter @Setter private FishingModule fishingModule;
 
     @Getter         private File logsFolder = new File(FishingBot.getExecutionDirectory(), "logs");
+
+    Thread thread = new Thread(() ->{
+        try {
+            SocketLaunch.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
+
+    Thread threadB = new Thread(() ->{
+        try {
+            SocketLaunch.startClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
 
     public Bot(CommandLine cmdLine) {
         FishingBot.getInstance().setCurrentBot(this);
@@ -327,6 +344,7 @@ public class Bot {
         this.commandRegistry = new CommandRegistry();
         getCommandRegistry().registerCommand(new HelpCommand());
         getCommandRegistry().registerCommand(new LevelCommand());
+        getCommandRegistry().registerCommand(new PacketCommand());
         getCommandRegistry().registerCommand(new EmptyCommand());
         getCommandRegistry().registerCommand(new ByeCommand());
         getCommandRegistry().registerCommand(new AdminCommand());
@@ -412,6 +430,18 @@ public class Bot {
 
                 // add shutdown hook
 
+                // init socket
+                if (getConfig().isSocketConnect()) {
+                    thread.setName("Socket Server Thread");
+                    thread.start();
+                }
+
+                if (getConfig().isSocketClientConnect()) {
+                        threadB.setName("Socket Client Thread");
+                        threadB.start();
+
+                }
+
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                     try {
                         if (socket != null && !socket.isClosed())
@@ -439,9 +469,11 @@ public class Bot {
                 FishingBot.getI18n().severe("bot-could-not-be-started", e.getMessage());
             } finally {
                 try {
-                    if (socket != null)
-                        this.socket.close();
-                } catch (IOException e) {
+                    if (socket != null) this.socket.close();
+
+                    if (SocketLaunch.mainServer != null) SocketLaunch.mainServer.stop(1000);
+                    if (SocketLaunch.mainClient != null) SocketLaunch.mainClient.close();
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
 

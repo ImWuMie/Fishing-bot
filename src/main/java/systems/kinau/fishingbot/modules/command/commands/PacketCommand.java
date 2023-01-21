@@ -14,7 +14,7 @@ public class PacketCommand extends Command {
     @Override
     public void onCommand(String label, String[] args, CommandExecutor executor) {
         switch (args[0]) {
-            case "say" : {
+            case "chat" : {
                 int i = 0;
                 StringBuilder message = new StringBuilder();
                 for (String s : args) {

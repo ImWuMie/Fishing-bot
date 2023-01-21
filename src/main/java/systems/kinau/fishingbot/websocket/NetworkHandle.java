@@ -18,7 +18,6 @@ public class NetworkHandle {
     }
 
     public static Packet getPacket(Packet p) {
-        Packet pro = null;
         switch (p.name) {
             case "say" : {
                 return new SayPacket(p.action);

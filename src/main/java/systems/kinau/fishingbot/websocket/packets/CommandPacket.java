@@ -5,13 +5,13 @@ import systems.kinau.fishingbot.websocket.Packet;
 
 public class CommandPacket extends Packet {
     public CommandPacket(String command,boolean botCmd) {
-        super("command", command+(botCmd ? "/-/true" : "/-/false"));
+        super("command_"+(botCmd ? "a" : "b"), command);
     }
 
     @Override
     public void apply() {
-        String[] s = action.split("/-/");
-        FishingBot.getInstance().getCurrentBot().runCommand(s[0],Boolean.parseBoolean(s[1]));
+        boolean botCmd = name.substring("command_".length()).equals("a");
+        FishingBot.getInstance().getCurrentBot().runCommand(action,botCmd);
         super.apply();
     }
 }

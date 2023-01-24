@@ -74,22 +74,6 @@ public class Bot {
 
     @Getter         private File logsFolder = new File(FishingBot.getExecutionDirectory(), "logs");
 
-    Thread thread = new Thread(() ->{
-        try {
-            SocketLaunch.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    });
-
-    Thread threadB = new Thread(() ->{
-        try {
-            SocketLaunch.startClient();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    });
-
     public Bot(CommandLine cmdLine) {
         FishingBot.getInstance().setCurrentBot(this);
         this.eventManager = new EventManager();
@@ -346,6 +330,7 @@ public class Bot {
         getCommandRegistry().registerCommand(new LevelCommand());
         getCommandRegistry().registerCommand(new PacketCommand());
         getCommandRegistry().registerCommand(new EmptyCommand());
+        getCommandRegistry().registerCommand(new MessageCommand());
         getCommandRegistry().registerCommand(new ByeCommand());
         getCommandRegistry().registerCommand(new AdminCommand());
         getCommandRegistry().registerCommand(new StuckCommand());
@@ -430,6 +415,22 @@ public class Bot {
 
                 // add shutdown hook
 
+                final Thread thread = new Thread(() ->{
+                    try {
+                        SocketLaunch.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                final Thread threadB = new Thread(() ->{
+                    try {
+                        SocketLaunch.startClient();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
                 // init socket
                 if (getConfig().isSocketConnect()) {
                     thread.setName("Socket Server Thread");
@@ -439,7 +440,6 @@ public class Bot {
                 if (getConfig().isSocketClientConnect()) {
                         threadB.setName("Socket Client Thread");
                         threadB.start();
-
                 }
 
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -471,9 +471,9 @@ public class Bot {
                 try {
                     if (socket != null) this.socket.close();
 
-                    if (SocketLaunch.mainServer != null) SocketLaunch.mainServer.stop(1000);
-                    if (SocketLaunch.mainClient != null) SocketLaunch.mainClient.close();
-                } catch (IOException | InterruptedException e) {
+                    if (SocketLaunch.mainServer != null) SocketLaunch.serverRunning = false;
+                    if (SocketLaunch.mainClient != null) SocketLaunch.clientRunning = false;
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 

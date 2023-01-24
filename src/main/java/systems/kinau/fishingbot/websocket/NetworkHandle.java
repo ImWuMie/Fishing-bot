@@ -1,7 +1,10 @@
 package systems.kinau.fishingbot.websocket;
 
 import systems.kinau.fishingbot.websocket.packets.CommandPacket;
+import systems.kinau.fishingbot.websocket.packets.QQActionPacket;
 import systems.kinau.fishingbot.websocket.packets.SayPacket;
+import systems.kinau.fishingbot.websocket.packets.client.JoinSocketPacket;
+import systems.kinau.fishingbot.websocket.packets.client.LeftSocketPacket;
 
 public class NetworkHandle {
     public static Packet readPacket(String p) {
@@ -18,12 +21,27 @@ public class NetworkHandle {
     }
 
     public static Packet getPacket(Packet p) {
+        if (p.name.startsWith("command_")) {
+            boolean botCmd = p.name.substring("command_".length()).equals("a");
+            return new CommandPacket(p.action,botCmd);
+        }
+        if (p.name.startsWith("qqAction_")) {
+            QQActionPacket.Action action = QQActionPacket.Action.getAction(p.name.substring("qqAction_".length()));
+            String[] strings = p.action.substring("[".length(),p.action.length()-1).split(";");
+            String json = strings[2].substring("message:".length());
+            String groupId = strings[1].substring("group:".length());
+            String text = strings[0].substring("text:".length());
+            return new QQActionPacket(action,text,groupId,json);
+        }
         switch (p.name) {
             case "say" : {
                 return new SayPacket(p.action);
             }
-            case "command" : {
-                return new CommandPacket(p.action,Boolean.parseBoolean(p.action.split("/-/")[1]));
+            case "join" : {
+                return new JoinSocketPacket(p.action);
+            }
+            case "left" : {
+                return new LeftSocketPacket(p.action);
             }
         }
         for (Packet packet : SocketLaunch.packets) {
